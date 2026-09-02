@@ -78,6 +78,8 @@ The following examples assume the authorization token is:
 
 Replace it with the token configured in your environment.
 
+Make sure all API calls happen in a new terminal not hosting the containers.
+
 ### Get All Messages
 
 Retrieves all messages stored in the API.
