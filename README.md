@@ -44,7 +44,7 @@ make start
 
 ### Run Tests
 
-Execute all unit and integration tests:
+Execute all unit and integration tests (NOTE: should be ran in a seperate terminal from make start):
 
 ```bash
 make test
