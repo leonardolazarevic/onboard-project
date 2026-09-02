@@ -1,44 +1,202 @@
-Prerequisites
--Go 1.27 downloaded
--docker downloaded
--Bruno downloaded
--Authorization token found on main.go for api calls
+# Web Service Gin
 
-Running the program (ALL "MAKE" COMMANDS MUST BE RAN AT web-service-gin)
- 1. Use "make start" to begin the docker containers for the api and postgres db
- 2. Running test cases requires "make test"
- 3. "make logs" shows docker logs
- 4. "make down" turns docker runnings off
- 
- API calls (These are example calls, and can be changed for other message IDs/bodies):
- getMessages
- -gets all messages avaliable in API
- -curl -H "Authorization: Bearer 123456789" http://localhost:8080/messages
- 
- getMessageById
- -gets message by an ID
- -curl -H "Authorization: Bearer 123456789" http://localhost:8080/messages/10
+A RESTful API built with **Go** and the **Gin** framework, backed by **PostgreSQL** and containerized with **Docker**. This project demonstrates API development, bearer token authentication, database integration, unit/integration testing, and API testing with Bruno.
 
- postMessage
- -creates a new message on the API
- -curl -X POST -H "Authorization: Bearer 123456789" -H "Content-Type: application/json" -d '{"id":"11","message":"Test Message","date":"2026-09-02T00:00:00Z","time":123}' http://localhost:8080/messages
+---
 
- patchMessage
- -changes an already exisitng message based of key
- -curl -X PATCH -H "Authorization: Bearer 123456789" -H "Content-Type: application/json" -d '{"message":"Updated Message"}' http://localhost:8080/messages/11
+## Prerequisites
 
- deleteMessage
- -deletes a message based off message id in API
- -curl -X DELETE -H "Authorization: Bearer 123456789" http://localhost:8080/messages/11
+Before running the project, install the following:
 
- Trouble Shooting
- 1. Sometimes "make start" needs to be stopped with ctrl+c and ran again due to postgres instance not starting
+- Go 1.27+
+- Docker Desktop
+- Bruno API Client
 
- Purpose of the program:
- - This program serves as a display of how a RESTful API based on Go using the GIN framework is integrated
- alongside docker containers, bruno, unit/integration tests, bearer tokens, and git fundamentals. It achieves this by being the mock backend for a hypothetical messaging board at Chick-Fil-A. Where one can Post, Delete, Patch, and Get posts.
+### Authentication
 
-Running Bruno
+All API endpoints require a bearer token.
 
-- To open Bruno, simply open collection on the Bruno folder attached to the project, make sure the program on docker is running first. Although there are unit tests for the api calls, bruno also acts as means for testing connectivity
+The token can be found in:
 
+```go
+main.go
+```
+
+and must be included in the `Authorization` header of all requests:
+
+```text
+Authorization: Bearer <your-token>
+```
+
+---
+
+## Running the Application
+
+> **Important:** All `make` commands must be run from the `web-service-gin` directory.
+
+### Start the Application
+
+Build and start the API and PostgreSQL containers:
+
+```bash
+make start
+```
+
+### Run Tests
+
+Execute all unit and integration tests:
+
+```bash
+make test
+```
+
+### View Logs
+
+Display Docker container logs:
+
+```bash
+make logs
+```
+
+### Stop the Application
+
+Shut down all running containers:
+
+```bash
+make down
+```
+
+---
+
+## API Endpoints
+
+The following examples assume the authorization token is:
+
+```text
+123456789
+```
+
+Replace it with the token configured in your environment.
+
+### Get All Messages
+
+Retrieves all messages stored in the API.
+
+```bash
+curl -H "Authorization: Bearer 123456789" http://localhost:8080/messages
+```
+
+### Get Message by ID
+
+Retrieves a single message by its ID.
+
+```bash
+curl -H "Authorization: Bearer 123456789" http://localhost:8080/messages/10
+```
+
+### Create a Message
+
+Creates a new message.
+
+```bash
+curl -X POST \
+-H "Authorization: Bearer 123456789" \
+-H "Content-Type: application/json" \
+-d '{"id":"11","message":"Test Message","date":"2026-09-02T00:00:00Z","time":123}' \
+http://localhost:8080/messages
+```
+
+### Update a Message
+
+Updates an existing message by ID.
+
+```bash
+curl -X PATCH \
+-H "Authorization: Bearer 123456789" \
+-H "Content-Type: application/json" \
+-d '{"message":"Updated Message"}' \
+http://localhost:8080/messages/11
+```
+
+### Delete a Message
+
+Deletes a message by ID.
+
+```bash
+curl -X DELETE \
+-H "Authorization: Bearer 123456789" \
+http://localhost:8080/messages/11
+```
+
+---
+
+## Bruno
+
+Bruno collections are included with this project.
+
+### Using Bruno
+
+1. Start the application:
+
+   ```bash
+   make start
+   ```
+
+2. Open Bruno.
+3. Open the collection located in the project's `Bruno` folder.
+4. Execute requests against the running API.
+
+While automated tests are provided, Bruno offers an easy way to manually verify API functionality and connectivity.
+
+---
+
+## Troubleshooting
+
+### PostgreSQL Container Fails to Start
+
+Occasionally, the PostgreSQL container may not initialize correctly on the first startup.
+
+If this occurs:
+
+1. Stop the current process using `Ctrl + C`
+2. Run:
+
+```bash
+make start
+```
+
+---
+
+## Purpose
+
+This project serves as a demonstration of:
+
+- RESTful API development with Go and Gin
+- PostgreSQL database integration
+- Docker containerization
+- Bearer token authentication
+- Unit and integration testing
+- Git and GitHub workflows
+- API testing with Bruno
+
+The application acts as a mock backend for a hypothetical Chick-fil-A messaging board that allows users to:
+
+- Create messages
+- Retrieve messages
+- Update messages
+- Delete messages
+
+through standard REST API endpoints.
+
+---
+
+## Project Stack
+
+- Go
+- Gin
+- PostgreSQL
+- Docker
+- Bruno
+- Make
+- Git / GitHub
+- Bearer Token Authentication
