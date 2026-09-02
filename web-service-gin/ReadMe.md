@@ -36,5 +36,3 @@ Running the program
 Running Bruno
 
 - To open Bruno, simply open collection on the Bruno folder attached to the project, make sure the program on docker is running first. Although there are unit tests for the api calls, bruno also acts as means for testing connectivity
-
-TEST CHANGES›
