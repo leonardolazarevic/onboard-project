@@ -68,6 +68,10 @@ make down
 
 ---
 
+### NOTE:
+
+When restarting the application be sure to always run "make down" to reset to the basic starting state.
+
 ## API Endpoints
 
 The following examples assume the authorization token is:
