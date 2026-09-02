@@ -5,4 +5,4 @@ test:
 logs:
 	docker compose logs go-api
 down:
-	docker compose down
+	docker compose down -v
