@@ -3,6 +3,8 @@ import heroImg from './assets/hero.png'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import './App.css'
+import Navigation from './components/Navigation/Navigation'
+import { TextInput } from '@cfa/react-core'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -15,6 +17,7 @@ function App() {
           <img src={reactLogo} className="framework" alt="React logo" />
           <img src={viteLogo} className="vite" alt="Vite logo" />
         </div>
+        <TextInput label="Label" description="Description" placeholder="Placeholder" />
         <div>
           <h1>Get started</h1>
           <p>
@@ -29,6 +32,10 @@ function App() {
           Count is {count}
         </button>
       </section>
+
+      <div className="ticks"></div>
+
+      <Navigation />
 
       <div className="ticks"></div>
 
