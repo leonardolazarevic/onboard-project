@@ -1,0 +1,164 @@
+.nav-topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  height: 64px;
+  padding: 0 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  background-color: #00597a;
+}
+
+.nav-topbar__section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  /* Fill the full navbar height so nav links (and their active underline) can
+     stretch to the bottom edge of the bar. */
+  align-self: stretch;
+}
+
+.nav-topbar__section--middle {
+  flex: 1;
+  justify-content: flex-start;
+  /* More breathing room between the top nav links than the default section gap. */
+  gap: 28px;
+}
+
+.nav-topbar__logo {
+  display: block;
+  /* The @cfa/icons/logos marks are SVGs drawn with currentColor; render white on
+     the dark nav bar. */
+  color: white;
+  flex-shrink: 0;
+}
+
+.nav-topbar .space {
+  width: 8px;
+}
+
+/* The hamburger/close IconButton renders a dark icon by default; make it white
+   so it reads against the colored nav bar. */
+.collapse-menu,
+.collapse-menu svg {
+  color: white;
+  fill: currentColor;
+}
+.collapse-menu:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.nav-topbar__avatar {
+  display: inline-flex;
+  cursor: pointer;
+  border-radius: 9999px;
+  outline: none;
+}
+
+.nav-topbar__avatar:focus-visible {
+  box-shadow: 0 0 0 2px white;
+}
+
+/* The react-core Avatar defaults to a CFA-red circle; recolor it to the same
+   translucent white the selects/hover states use so it blends into the nav bar
+   instead of standing out in brand red. */
+.nav-topbar__avatar [class*="avatar"] {
+  --background-color: rgba(255, 255, 255, 0.18);
+  --text-color: white;
+}
+
+.nav-topbar__select {
+  /* Size each select to its own content (the environment values are short, so a
+     fixed min-width made it too wide). */
+  min-width: 0;
+}
+
+/* Blend the react-core Select buttons into the dark nav bar (default is a white
+   box); the dropdown popover is portaled to <body> and keeps its light styling. */
+.nav-topbar__select button {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  color: white;
+  font-weight: 500;
+  padding: 4px 6px;
+}
+
+.nav-topbar__select button:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.nav-topbar__select button svg,
+.nav-topbar__select button span {
+  color: white;
+}
+
+.nav-topbar-link {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 4px 2px;
+  position: relative;
+  white-space: nowrap;
+}
+
+/* Topbar links fill the full navbar height and center their label, so the
+   active underline (::after, bottom: 0) lands at the bottom of the bar rather
+   than directly beneath the text. Scoped to the topbar so drawer links are
+   unaffected. */
+.nav-topbar__section .nav-topbar-link {
+  display: inline-flex;
+  align-items: center;
+  align-self: stretch;
+}
+
+.nav-topbar-link:hover {
+  color: white;
+  opacity: 0.85;
+}
+
+.nav-topbar-link--active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-bottom: 3px solid white;
+}
+
+.nav-drawer__links {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 8px 0;
+}
+
+.nav-drawer__links .nav-topbar-link {
+  color: #1e272f;
+  font-weight: 500;
+  font-size: 1.05rem;
+  padding: 14px 24px;
+}
+
+.nav-drawer__links .nav-topbar-link:hover {
+  color: #1e272f;
+  opacity: 1;
+  background: #f5f6f7;
+}
+
+/* Active item is highlighted (red text + tint), not underlined like the top nav.
+   Suppress the top-nav underline that would otherwise leak into the drawer. */
+.nav-drawer__links .nav-topbar-link--active {
+  color: #dd0031;
+  font-weight: 700;
+  background: #f5f6f7;
+  box-shadow: inset -3px 0 0 #dd0031;
+}
+.nav-drawer__links .nav-topbar-link--active::after {
+  display: none;
+}
