@@ -16,8 +16,6 @@ function App() {
       <section id="center">
         <h1>   </h1>
         <h2>Messaging Board</h2>
-        {/*//note, set api call to this ui to post message to backend*/}
-        <TextInput label="Type in a message to enter!" placeholder="Hello..." />
       </section>
       <TableDisplay />
       <Navigation />
