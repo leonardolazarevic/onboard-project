@@ -9,6 +9,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5"
+	"github.com/gin-contrib/cors"
 )
 
 type message struct {
@@ -181,6 +182,13 @@ func main() {
 	fmt.Println("Hello, World!")
 
 	router := gin.Default()
+
+	//Why did cors config not work? 
+	config := cors.DefaultConfig()
+	config.AllowAllOrigins = true
+	config.AllowHeaders = []string{"Origin", "Content-Length", "Content-Type", "Authorization"}
+
+	router.Use(cors.New(config))
 
 	protected := router.Group("/")
 	protected.Use(AuthMiddleware())
