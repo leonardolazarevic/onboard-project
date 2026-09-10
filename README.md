@@ -39,7 +39,7 @@ in the terminal to make sure the frontend connects to the backend and database n
 
 ### Start the Application
 
-Build and start the API and PostgreSQL containers:
+Build and start the API, React frontend, and PostgreSQL containers, to view frontend go to http://localhost:5173:
 
 ```bash
 make start
@@ -136,6 +136,14 @@ curl -X DELETE \
 -H "Authorization: Bearer 123456789" \
 http://localhost:8080/messages/11
 ```
+---
+## Frontend rundown
+
+Text input box: Allows typed message to be posted on message board
+
+Delete button: Deletes post from message board
+
+Edit button: Edits current post to a different text, while changing date to current date
 
 ---
 
@@ -187,8 +195,9 @@ This project serves as a demonstration of:
 - Unit and integration testing
 - Git and GitHub workflows
 - API testing with Bruno
+- React front end hooking into other backend devices
 
-The application acts as a mock backend for a hypothetical Chick-fil-A messaging board that allows users to:
+The application acts as a mock backend and frontend for a hypothetical Chick-fil-A messaging board that allows users to:
 
 - Create messages
 - Retrieve messages
@@ -209,3 +218,6 @@ through standard REST API endpoints.
 - Make
 - Git / GitHub
 - Bearer Token Authentication
+- React
+- Vite
+- Typescript
