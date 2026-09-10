@@ -1,0 +1,41 @@
+services:
+  postgres-db:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: messagesdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./web-service-gin/database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d messagesdb"]
+      interval: 2s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+
+  go-api:
+    build: ./web-service-gin
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://postgres:password@postgres-db:5432/messagesdb?sslmode=disable
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        NPM_TOKEN: ${NPM_TOKEN}
+    ports:
+      - "5173:5173"
+
+volumes:
+  postgres-data:

@@ -7,9 +7,9 @@ import (
 	"onboardproject/web-service-gin/database"
 	"time"
 
-	"github.com/gin-gonic/gin"
-	"github.com/jackc/pgx/v5"
 	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 type message struct {
@@ -21,7 +21,7 @@ type message struct {
 
 const apiToken = "123456789"
 
-var db *pgx.Conn
+var db *pgxpool.Pool
 
 func getMessages(c *gin.Context) {
 	rows, err := db.Query(context.Background(), "SELECT id, message, date, time FROM messages")
@@ -129,6 +129,15 @@ func patchMessageByID(c *gin.Context) {
 		return
 	}
 
+	date := updatedMessage.Date
+	if date.IsZero() {
+		date = time.Now()
+	}
+	timeVal := updatedMessage.Time
+	if timeVal == 0 {
+		timeVal = time.Now().Unix()
+	}
+
 	commandTag, err := db.Exec(
 		context.Background(),
 		`UPDATE messages
@@ -137,8 +146,8 @@ func patchMessageByID(c *gin.Context) {
              time = $3
          WHERE id = $4`,
 		updatedMessage.Message,
-		updatedMessage.Date,
-		updatedMessage.Time,
+		date,
+		timeVal,
 		id,
 	)
 
@@ -157,8 +166,10 @@ func patchMessageByID(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"message": "Message updated successfully",
+		"message": updatedMessage.Message,
 		"id":      id,
+		"date":    date,
+		"time":    timeVal,
 	})
 }
 
@@ -183,7 +194,7 @@ func main() {
 
 	router := gin.Default()
 
-	//Why did cors config not work? 
+	//Why did cors config not work?
 	config := cors.DefaultConfig()
 	config.AllowAllOrigins = true
 	config.AllowHeaders = []string{"Origin", "Content-Length", "Content-Type", "Authorization"}
@@ -204,9 +215,9 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	defer db.Close()
 
 	fmt.Println("Connected to PostgreSQL!")
 
 	router.Run(":8080")
-
 }

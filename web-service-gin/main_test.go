@@ -1,13 +1,13 @@
 package main
 
 import (
-	"context"
 	//"fmt"
 	"net/http"
 	"net/http/httptest"
 	"onboardproject/web-service-gin/database"
 	"strings"
 	"testing"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -20,7 +20,7 @@ func TestPostMessage(t *testing.T) {
 	}
 	
 	t.Log("Database connected successfully")
-	defer db.Close(context.Background())
+	defer db.Close()
 
 	gin.SetMode(gin.TestMode)
 	
@@ -61,7 +61,7 @@ func TestGetMessageByID(t *testing.T) {
 	}
 	
 	t.Log("Database connected successfully")
-	defer db.Close(context.Background())
+	defer db.Close()
 
 	gin.SetMode(gin.TestMode)
 	
@@ -101,7 +101,7 @@ func TestPatchMessageByID(t *testing.T) {
 	}
 	
 	t.Log("Database connected successfully")
-	defer db.Close(context.Background())
+	defer db.Close()
 
 	gin.SetMode(gin.TestMode)
 	
@@ -142,7 +142,7 @@ func TestGetMessages(t *testing.T) {
 	}
 
 	t.Log("Database connected successfully")
-	defer db.Close(context.Background())
+	defer db.Close()
 
 	// t.Logf(
 	// 	"DATABASE_URL=%s",
@@ -186,7 +186,7 @@ func TestDeleteMessageByID(t *testing.T) {
 	}
 	
 	t.Log("Database connected successfully")
-	defer db.Close(context.Background())
+	defer db.Close()
 
 	gin.SetMode(gin.TestMode)
 	
