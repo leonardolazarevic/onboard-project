@@ -2,6 +2,10 @@
 
 A RESTful API built with **Go** and the **Gin** framework, backed by **PostgreSQL** and containerized with **Docker**. This project demonstrates API development, bearer token authentication, database integration, unit/integration testing, and API testing with Bruno.
 
+# Frontend 
+
+A React frontend, allowing the use and presentation of a GO API and a PostgresSQL database. Full functionality with DELETE, POST, PATCH, and GET calls, alongside design practices and components found in the CFA Design System and the ERC Support Portal.
+
 ---
 
 ## Prerequisites
@@ -11,28 +15,27 @@ Before running the project, install the following:
 - Go 1.27+
 - Docker Desktop
 - Bruno API Client
+- Node 22+
 
 ### Authentication
 
 All API endpoints require a bearer token.
 
-The token can be found in:
-
-```go
-main.go
-```
-
-and must be included in the `Authorization` header of all requests:
-
-```text
-Authorization: Bearer <your-token>
-```
+Ask for the bearer token from the repo owner, once acquired, create a .env file in the onboard-project base directory, and type in "API_TOKEN=bearer token"
 
 ---
 
 ## Running the Application
 
-> **Important:** All `make` commands must be run from the `web-service-gin` directory.
+> **Important:** All `make` commands must be run from the `onboard-project` directory.
+
+### Manually export your NPM token to the project
+
+Run 
+```bash
+export NPM_TOKEN=your-jfrog-auth-token-here
+```
+in the terminal to make sure the frontend connects to the backend and database normally
 
 ### Start the Application
 
