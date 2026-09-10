@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"onboardproject/web-service-gin/database"
+	"os"
 	"time"
 
 	"github.com/gin-contrib/cors"
@@ -19,7 +20,7 @@ type message struct {
 	Time    int64     `json:"time"`
 }
 
-const apiToken = "123456789"
+var apiToken = os.Getenv("API_TOKEN")
 
 var db *pgxpool.Pool
 
