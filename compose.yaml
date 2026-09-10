@@ -26,6 +26,7 @@ services:
         condition: service_healthy
     environment:
       DATABASE_URL: postgres://postgres:password@postgres-db:5432/messagesdb?sslmode=disable
+      API_TOKEN: ${API_TOKEN}
     restart: unless-stopped
 
   frontend:
