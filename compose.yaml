@@ -36,7 +36,10 @@ services:
       args:
         NPM_TOKEN: ${NPM_TOKEN}
     ports:
-      - "5173:5173"
+      - "5173:80"
+    environment:
+      API_URL: /messages
+      API_TOKEN: ${API_TOKEN}
 
 volumes:
   postgres-data:

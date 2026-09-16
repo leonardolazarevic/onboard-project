@@ -2,6 +2,7 @@ import { UNSTABLE_Table as Table, TextInput } from "@cfa/react-core";
 import { Button } from "@cfa/react-core";
 import { useState, useEffect } from "react";
 import { Modal } from "@cfa/react-core";
+import { API_TOKEN, API_URL } from "../apiConfig";
 import PostInput from "./PostInput";
 
 interface Message {
@@ -77,9 +78,6 @@ export default function TableDisplay() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const API_TOKEN = "123456789";
-  const API_URL = "http://localhost:8080/messages";
-
   const fetchMessages = async () => {
     try {
       const response = await fetch(API_URL, {
@@ -90,12 +88,13 @@ export default function TableDisplay() {
         },
       });
       if (!response.ok) {
-        throw new Error("Failed to fetch messages");
-      } 
+        throw new Error(`Failed to fetch messages (${response.status})`);
+      }
       const data = await response.json();
-      setMessages(data);
+      setMessages(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error("Error fetching messages:", error);
+      setMessages([]);
     } finally {
       setLoading(false);
     }

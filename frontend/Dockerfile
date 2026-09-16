@@ -1,4 +1,4 @@
-FROM node:22
+FROM node:22-slim AS build
 
 ARG NPM_TOKEN
 
@@ -9,10 +9,20 @@ COPY package*.json ./
 RUN echo "registry=https://cfa.jfrog.io/artifactory/api/npm/npm/" > .npmrc && \
     echo "//cfa.jfrog.io/artifactory/api/npm/npm/:_authToken=${NPM_TOKEN}" >> .npmrc
 
-RUN npm install
+RUN npm ci
 
 COPY . .
 
-EXPOSE 5173
+RUN npm run build && rm -f .npmrc
 
-CMD ["npm", "run", "dev", "--", "--host"]
+FROM nginx:alpine
+
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /app/dist /usr/share/nginx/html
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+
+RUN chmod +x /docker-entrypoint.sh
+
+EXPOSE 80
+
+ENTRYPOINT ["/docker-entrypoint.sh"]

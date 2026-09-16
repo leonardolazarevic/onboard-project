@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { TextInput, Button } from "@cfa/react-core";
+import { API_TOKEN, API_URL } from "../apiConfig";
 
 interface Message {
   id: string;
@@ -15,9 +16,6 @@ interface PostInputProps {
 export default function PostInput({ onPosted }: PostInputProps) {
   const [text, setText] = useState("");
   const [posting, setPosting] = useState(false);
-
-  const API_TOKEN = "123456789";
-  const API_URL = "http://localhost:8080/messages";
 
   const postMessage = async () => {
     const trimmed = text.trim();
