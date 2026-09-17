@@ -2,7 +2,7 @@ import { UNSTABLE_Table as Table, TextInput } from "@cfa/react-core";
 import { Button } from "@cfa/react-core";
 import { useState, useEffect } from "react";
 import { Modal } from "@cfa/react-core";
-import { API_TOKEN, API_URL } from "../apiConfig";
+import { getApiToken, getApiUrl } from "../apiConfig";
 import PostInput from "./PostInput";
 
 interface Message {
@@ -80,11 +80,11 @@ export default function TableDisplay() {
 
   const fetchMessages = async () => {
     try {
-      const response = await fetch(API_URL, {
+      const response = await fetch(getApiUrl(), {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${API_TOKEN}`,
+          Authorization: `Bearer ${getApiToken()}`,
         },
       });
       if (!response.ok) {
@@ -102,11 +102,11 @@ export default function TableDisplay() {
 
   const deleteMessage = async (id: string) => {
     try {
-      const response = await fetch(`${API_URL}/${id}`, {
+      const response = await fetch(`${getApiUrl()}/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${API_TOKEN}`,
+          Authorization: `Bearer ${getApiToken()}`,
         },
       });
       if (!response.ok) {
@@ -124,11 +124,11 @@ export default function TableDisplay() {
     updatedMessage: Partial<Message>,
   ): Promise<boolean> => {
     try {
-      const response = await fetch(`${API_URL}/${id}`, {
+      const response = await fetch(`${getApiUrl()}/${id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${API_TOKEN}`,
+          Authorization: `Bearer ${getApiToken()}`,
         },
         body: JSON.stringify(updatedMessage),
       });

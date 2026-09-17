@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { TextInput, Button } from "@cfa/react-core";
-import { API_TOKEN, API_URL } from "../apiConfig";
+import { getApiToken, getApiUrl } from "../apiConfig";
 
 interface Message {
   id: string;
@@ -33,11 +33,11 @@ export default function PostInput({ onPosted }: PostInputProps) {
 
     setPosting(true);
     try {
-      const response = await fetch(API_URL, {
+      const response = await fetch(getApiUrl(), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${API_TOKEN}`,
+          Authorization: `Bearer ${getApiToken()}`,
         },
         body: JSON.stringify(newMessage),
       });
