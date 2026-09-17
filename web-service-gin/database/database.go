@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 	"time"
-
+	
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
@@ -14,10 +14,14 @@ func Connect() (*pgxpool.Pool, error) {
 	if databaseURL == "" {
 		return nil, fmt.Errorf("DATABASE_URL is not set")
 	}
+	config, err := pgxpool.ParseConfig(databaseURL)
+	if err != nil {
+		return nil, fmt.Errorf("invalid DATABASE_URL: %w", err)
+	}
 
 	var lastErr error
 	for attempt := 1; attempt <= 10; attempt++ {
-		pool, err := pgxpool.New(context.Background(), databaseURL)
+		pool, err := pgxpool.NewWithConfig(context.Background(), config.Copy())
 		if err != nil {
 			lastErr = err
 			time.Sleep(time.Duration(attempt) * time.Second)

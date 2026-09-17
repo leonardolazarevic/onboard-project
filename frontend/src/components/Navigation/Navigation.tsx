@@ -1,4 +1,4 @@
-import { type FC, useState } from "react";
+import { type FC } from "react";
 import { NavLink } from "react-router-dom";
 import {
   Drawer,
@@ -18,7 +18,6 @@ const navLinkClass = ({ isActive }: { isActive: boolean }) =>
     .join(" ");
 
 const Navigation: FC = () => {
-  const [openDrawer, setOpenDrawer] = useState(false);
   const isMobile = useIsMobile();
 
   const navLinks = (
@@ -62,15 +61,6 @@ const Navigation: FC = () => {
         {navLinks}
       </div>
       )}
-
-      <Drawer.Root>
-  <IconButton>
-    <MenuIcon />
-  </IconButton>
-  <Drawer.Tray>
-    {navLinks}
-    </Drawer.Tray>
-  </Drawer.Root>
     </nav>
   );
 };

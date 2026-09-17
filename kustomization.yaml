@@ -1,0 +1,10 @@
+#use "kubectl apply -k ." for command
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: onboard-project
+
+resources:
+  - frontend-deployment.yaml
+  - backend-deployment.yaml
+  - postgres-deployment.yaml

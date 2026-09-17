@@ -2,6 +2,7 @@ import { UNSTABLE_Table as Table, TextInput } from "@cfa/react-core";
 import { Button } from "@cfa/react-core";
 import { useState, useEffect } from "react";
 import { Modal } from "@cfa/react-core";
+import { getApiToken, getApiUrl } from "../apiConfig";
 import PostInput from "./PostInput";
 
 interface Message {
@@ -77,25 +78,23 @@ export default function TableDisplay() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const API_TOKEN = "123456789";
-  const API_URL = "http://localhost:8080/messages";
-
   const fetchMessages = async () => {
     try {
-      const response = await fetch(API_URL, {
+      const response = await fetch(getApiUrl(), {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${API_TOKEN}`,
+          Authorization: `Bearer ${getApiToken()}`,
         },
       });
       if (!response.ok) {
-        throw new Error("Failed to fetch messages");
-      } 
+        throw new Error(`Failed to fetch messages (${response.status})`);
+      }
       const data = await response.json();
-      setMessages(data);
+      setMessages(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error("Error fetching messages:", error);
+      setMessages([]);
     } finally {
       setLoading(false);
     }
@@ -103,11 +102,11 @@ export default function TableDisplay() {
 
   const deleteMessage = async (id: string) => {
     try {
-      const response = await fetch(`${API_URL}/${id}`, {
+      const response = await fetch(`${getApiUrl()}/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${API_TOKEN}`,
+          Authorization: `Bearer ${getApiToken()}`,
         },
       });
       if (!response.ok) {
@@ -125,11 +124,11 @@ export default function TableDisplay() {
     updatedMessage: Partial<Message>,
   ): Promise<boolean> => {
     try {
-      const response = await fetch(`${API_URL}/${id}`, {
+      const response = await fetch(`${getApiUrl()}/${id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${API_TOKEN}`,
+          Authorization: `Bearer ${getApiToken()}`,
         },
         body: JSON.stringify(updatedMessage),
       });
